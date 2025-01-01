@@ -101,7 +101,8 @@
 
     // スキン画像を表示する関数
     async function showSkins() {
-      const prf = await loadYaml('https://raw.githubusercontent.com/helloharu/webpage_test/main/profile.yaml');
+      // const prf = await loadYaml('https://raw.githubusercontent.com/helloharu/webpage_test/main/profile.yaml');
+      const prf = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/profile.yaml');
 
       if (!prf) {
         console.error("YAMLデータの取得に失敗しました");
@@ -117,7 +118,8 @@
         skinWrapper.classList.add('skinWrapper');
 
         const img_skin = new Image();
-        img_skin.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/' + skindata[skinName]["filename"];
+        // img_skin.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/' + skindata[skinName]["filename"];
+        img_skin.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/' + skindata[skinName]["filename"];
         img_skin.classList.add('skinImage');
         img_skin.alt = skinName;
 
@@ -174,7 +176,8 @@
             outputImage.src = canvas.toDataURL();
             outputImage.style.display = "block";
           };
-          img_skin.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/' + activeSkins[skinName]["filename"];
+          // img_skin.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/' + activeSkins[skinName]["filename"];
+          img_skin.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/' + activeSkins[skinName]["filename"];
         }
 
         // スキンがない場合、バット画像のみ表示
@@ -184,7 +187,8 @@
           outputImage.style.display = "block";
         }
       };
-      img_bat.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/flybat_edged_0.png';
+      // img_bat.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/flybat_edged_0.png';
+      img_bat.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_0.png';
     }
 
     // 有効化されているスキン名を更新する関数
@@ -231,7 +235,8 @@
         showSkins();
       };
 
-      img_bat.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/flybat_edged_0.png';
+      // img_bat.src = 'https://raw.githubusercontent.com/helloharu/webpage_test/main/material/flybat_edged_0.png';
+      img_bat.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_0.png';
     }
 
     // コピーイベントの設定
