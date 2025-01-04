@@ -87,20 +87,45 @@
 
   <br><br><br><br>
   <div style="text-align: center;font-size: 32px;"><b>使い方</b></div>
-  <div id="howToUse">1. スキンを選択してね　　　　　　　　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
+  <div id="howToUse">1. 名前を入れて、スキンを選択してね　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
   <!-- 上部にバット画像を表示 -->
   <img id="outputImage" src="" alt="画像のリンク切れ。ごめんね。">
 
   <br><br>
   <!-- 有効化されているスキンを表示する領域 -->
-  <div id="selectedSkins">スキン</div>
+  <div id="selectedSkins">着替えの呪文: スキン</div>
 
   <div style="text-align: center;">
     <button id="copyButton" justify-content="center">着替えの呪文をコピー</button>
   </div>
 
+  <br><br><br><br>
+  <div style="text-align: center;font-size: 40px;"><b>所持スキン</b></div>
+
   <!-- スキン画像の一覧を表示するコンテナ -->
-  <div id="skinContainer"></div>
+  <hr style="border: 1px solid Thistle;">
+  <div style="text-align: left;font-size: 32px;"><b>L</b></div>
+  <div id="skinContainerL"></div>
+  <br>
+
+  <hr style="border: 1px solid Thistle;">
+  <div style="text-align: left;font-size: 32px;"><b>SSR</b></div>
+  <div id="skinContainerSSR"></div>
+  <br>
+
+  <hr style="border: 1px solid Thistle;">
+  <div style="text-align: left;font-size: 32px;"><b>SR</b></div>
+  <div id="skinContainerSR"></div>
+  <br>
+
+  <hr style="border: 1px solid Thistle;">
+  <div style="text-align: left;font-size: 32px;"><b>R</b></div>
+  <div id="skinContainerR"></div>
+  <br>
+
+  <hr style="border: 1px solid Thistle;">
+  <div style="text-align: left;font-size: 32px;"><b>C</b></div>
+  <div id="skinContainerC"></div>
 
   <canvas id="myCanvas" style="display:none;"></canvas>
 
@@ -149,15 +174,24 @@
 
       if (usernameInput in listenerIds) {
         userIdInput = listenerIds[usernameInput][0];
-        await showSkins();
-      };
+        await showAllSkins();
+      } else {
+        alert("この名前はまだ登録されてないよ。ロイドの配信でコメントしよう!\n\nチャンネルのリンク↓\nhttps://www.youtube.com/channel/UCf4Fq2Ho5OxE2UtBV4I53aA")
+      }
     }
 
-
+    async function showAllSkins(){
+      // skinContainer.innerHTML = ''; // スキン画像をクリア
+      await showSkins("L");
+      await showSkins("SSR");
+      await showSkins("SR");
+      await showSkins("R");
+      await showSkins("C");
+    }
 
     // スキン画像を表示する関数
-    async function showSkins() {
-      const skinContainer = document.getElementById('skinContainer');
+    async function showSkins(rarity) {
+      const skinContainer = document.getElementById('skinContainer' + rarity);
       skinContainer.innerHTML = ''; // スキン画像をクリア
 
 
@@ -167,6 +201,9 @@
         console.log("skinName:", skinName);
         console.log("skinData[skinName]", skinData[skinName]);
 
+        if (!(skinData[skinName].rarity === rarity)){
+          continue;
+        }
 
         const skinWrapper = document.createElement('div');
         skinWrapper.classList.add('skinWrapper');
@@ -263,7 +300,7 @@
     function updateSelectedSkins() {
       const selectedSkins = document.getElementById("selectedSkins");
       const skinNames = Object.keys(activeSkins).join(' ');
-      selectedSkins.textContent = `スキン ${skinNames || 'なし'}`;
+      selectedSkins.textContent = `着替えの呪文: スキン ${skinNames || 'なし'}`;
     }
 
     // クリップボードにスキン名をコピーする関数
