@@ -6,6 +6,13 @@
   <link rel="stylesheet" href="stylesheet.css" type="text/css">
   <title>スカーレット家の衣装部屋</title>
   <style>
+    .centered{
+      display: flex;
+      justify-content: center; /* 要素全体を中央に配置 */
+    }
+    .centered p{
+      text-align: left;
+    }
     #skinContainer {
       text-align: center;
       margin-top: 20px;
@@ -108,6 +115,8 @@
       text-align: center;
       font-size: 28px;
     }
+
+
     #username-input{
       font-size: 22px;
     }
@@ -175,7 +184,9 @@
 
   <br><br>
   <div><h2>使い方</h2></div>
-  <div class="normal-text">1. 名前を入れて、スキンを選択してね　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
+  <div class="centered">
+      <p class="normal-text">1. 名前を入れて、スキンを選択してね<br>2. 着替えの呪文をコピーしてね<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></p>
+  </div>
   <!-- 上部にバット画像を表示 -->
   <img id="outputImage" alt="画像のリンク切れ。ごめんね。">
 
