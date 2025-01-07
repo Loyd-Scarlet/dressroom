@@ -3,17 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="stylesheet.css" type="text/css">
   <title>スカーレット家の衣装部屋</title>
   <style>
-    h1 {
-      text-align: center;
-    }
-    #outputImage {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-    }
     #skinContainer {
       text-align: center;
       margin-top: 20px;
@@ -24,44 +16,10 @@
       margin: 10px;
       cursor: pointer;
     }
-    .skinImage {
-      width: 100px;
-      height: auto;
-      border: 2px solid transparent; /* 初期状態は枠なし */
-    }
-    .skinName {
-      margin-top: 5px;
-      font-size: 20px;
-      color: #333;
-    }
-    .active {
-      border-color: lightblue; /* 有効化されたスキンは水色でハイライト */
-      border-width: 6px;
-    }
-
     #username-container {
       text-align: center;
       font-size: 24px;
       color: #555;
-    }
-
-    #selectedSkins {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 24px;
-    }
-    #copyButton {
-      text-align: center;
-      margin-top: 10px;
-      padding: 8px 16px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    #howToUse {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 28px;
     }
 
     #listenerId {
@@ -70,14 +28,144 @@
       font-size: 24px;
       color: #555;
     }
+
+  /* スマホ用スタイル */
+  @media (max-width: 768px) {
+    h1 {
+      text-align: center;
+      font-size: 28px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 22px;
+    }
+    .normal-text {
+      margin-top: 5px;
+      text-align: center;
+      font-size: 14px;
+    }
+    #username-input {
+      font-size: 14px;
+    }
+    #submitButton{
+      font-size: 14px;
+    }
+    #outputImage {
+      display: block;
+      max-width: 100%; /* 画面幅を超えないようにする */
+      height: auto;
+      margin: 0 auto;
+    }
+    #copyButton {
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .rarity {
+      font-size: 24px;
+    }
+    .rarityBorder {
+      border-color: Thistle;
+    }
+    .skinImage {
+      max-width: 80px;
+      max-height: 120px;
+      width: auto;
+      height: auto;
+      border: 2px solid transparent; /* 初期状態は枠なし */
+    }
+    .skinImage.active {
+      border: 4px solid lightblue; /* 選択時の枠線を明確に */
+      border-radius: 8px;
+      padding: 6px solid white; /* ボーダーとコンテンツの間に余白を追加 */
+      box-shadow: 10px 10px 10px gray; /* ハイライト効果を追加 */
+    }
+    .skinName {
+      margin-top: 5px;
+      font-size: 16px;
+      width: 10ch;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-break: strict;
+      color: #333;
+    }
+  }
+
+  /* PC用スタイル */
+  @media (min-width: 769px) {
+    h1 {
+      text-align: center;
+      font-size: 48px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 32px;
+    }
+    .normal-text {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 28px;
+    }
+    #username-input{
+      font-size: 22px;
+    }
+    #submitButton{
+      font-size: 22px;
+    }
+    #outputImage {
+      display: block;
+      max-width: 800px;
+      height: auto;
+      width: auto;
+      margin: 0 auto;
+
+    }
+    #copyButton {
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .rarity {
+      font-size: 32px;
+    }
+    .rarityBorder {
+      border-color: Thistle;
+    }
+    .skinImage {
+      max-width: 100px;
+      max-height: 150px;
+      width: auto;
+      height: auto;
+      border: 2px solid transparent;
+    }
+    .skinImage.active {
+      border: 4px solid lightblue; /* 選択時の枠線を明確に */
+      border-radius: 12px;
+
+      padding: 6px solid white; /* ボーダーとコンテンツの間に余白を追加 */
+      box-shadow: 10px 10px 10px gray; /* ハイライト効果を追加 */
+    }
+    .skinName {
+      margin-top: 5px;
+      font-size: 20px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      color: #333;
+    }
+
+  }
+
   </style>
 </head>
 <body>
-  <div style="text-align: center;font-size: 48px;"><b>スカーレット家の衣装部屋へようこそ</b></div>
+  <div><h1>ロイド・スカーレットの衣装部屋へようこそ</h1></div>
 
-  <br><br>
-
-  <div style="text-align: center;font-size: 28px;"><b>あなたの名前を入れてね</b></div>
+  <br>
+  <div><h2>あなたの名前を入れてね</b></h2></div>
 
 
   <div id="username-container">
@@ -85,47 +173,48 @@
     <button id="submitButton">送信</button>
   </div>
 
-  <br><br><br><br>
-  <div style="text-align: center;font-size: 32px;"><b>使い方</b></div>
-  <div id="howToUse">1. 名前を入れて、スキンを選択してね　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
+  <br><br>
+  <div><h2>使い方</h2></div>
+  <div class="normal-text">1. 名前を入れて、スキンを選択してね　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
   <!-- 上部にバット画像を表示 -->
-  <img id="outputImage" src="" alt="画像のリンク切れ。ごめんね。">
+  <img id="outputImage" alt="画像のリンク切れ。ごめんね。">
 
   <br><br>
   <!-- 有効化されているスキンを表示する領域 -->
-  <div id="selectedSkins">着替えの呪文: スキン</div>
+  <div class="normal-text" id="selectedSkins">着替えの呪文: スキン</div>
 
   <div style="text-align: center;">
-    <button id="copyButton" justify-content="center">着替えの呪文をコピー</button>
+    <button id="copyButton" justify-content="center">呪文をコピー</button>
   </div>
 
   <br><br><br><br>
-  <div style="text-align: center;font-size: 40px;"><b>所持スキン</b></div>
+  <div><h2>所持スキン</h2></div>
 
   <!-- スキン画像の一覧を表示するコンテナ -->
-  <hr style="border: 1px solid Thistle;">
-  <div style="text-align: left;font-size: 32px;"><b>L</b></div>
+  <hr class="rarityBorder">
+  <div class="rarity"><b>L</b></div>
   <div id="skinContainerL"></div>
   <br>
 
-  <hr style="border: 1px solid Thistle;">
-  <div style="text-align: left;font-size: 32px;"><b>SSR</b></div>
+  <hr class="rarityBorder">
+  <div class="rarity"><b>SSR</b></div>
   <div id="skinContainerSSR"></div>
   <br>
 
-  <hr style="border: 1px solid Thistle;">
-  <div style="text-align: left;font-size: 32px;"><b>SR</b></div>
+  <hr class="rarityBorder">
+  <div class="rarity"><b>SR</b></div>
   <div id="skinContainerSR"></div>
   <br>
 
-  <hr style="border: 1px solid Thistle;">
-  <div style="text-align: left;font-size: 32px;"><b>R</b></div>
+  <hr class="rarityBorder">
+  <div class="rarity"><b>R</b></div>
   <div id="skinContainerR"></div>
   <br>
 
-  <hr style="border: 1px solid Thistle;">
-  <div style="text-align: left;font-size: 32px;"><b>C</b></div>
+  <hr class="rarityBorder">
+  <div class="rarity"><b>C</b></div>
   <div id="skinContainerC"></div>
+  <br>
 
   <canvas id="myCanvas" style="display:none;"></canvas>
 
