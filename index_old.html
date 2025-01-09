@@ -1,281 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>スカーレット家の衣装部屋</title>
-  <style>
-    h1 {
-      text-align: center;
-    }
-    #outputImage {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-    }
-    #skinContainer {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .skinWrapper {
-      display: inline-block;
-      text-align: center;
-      margin: 10px;
-      cursor: pointer;
-    }
-    .skinImage {
-      width: 100px;
-      height: auto;
-      border: 2px solid transparent; /* 初期状態は枠なし */
-    }
-    .skinName {
-      margin-top: 5px;
-      font-size: 20px;
-      color: #333;
-    }
-    .active {
-      border-color: lightblue; /* 有効化されたスキンは水色でハイライト */
-      border-width: 6px;
-    }
-    #selectedSkins {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 24px;
-    }
-    #copyButton {
-      text-align: center;
-      margin-top: 10px;
-      padding: 8px 16px;
-      font-size: 20px;
-      cursor: pointer;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube チャンネル情報の取得</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        function onGAPILoad() {
+            gapi.load('client:auth2', initClient);
+        }
 
-    #howToUse {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 28px;
-    }
-  </style>
+        function initClient() {
+            gapi.client.init({
+                clientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/youtube.readonly'
+            }).then(() => {
+                gapi.auth2.getAuthInstance().signIn().then(() => {
+                    loadYouTubeChannel();
+                });
+            });
+        }
+
+        function loadYouTubeChannel() {
+            gapi.client.request({
+                path: 'https://www.googleapis.com/youtube/v3/channels',
+                params: {
+                    part: 'snippet',
+                    mine: true
+                }
+            }).then(response => {
+                const channel = response.result.items[0];
+                const channelName = channel.snippet.title;
+                const channelId = channel.id;
+                console.log('Channel Name:', channelName);
+                console.log('Channel ID:', channelId);
+            }).catch(error => {
+                console.error('Error retrieving YouTube channel:', error);
+            });
+        }
+    </script>
 </head>
 <body>
-  <div style="text-align: center;font-size: 48px;"><b>スカーレット家の衣装部屋へようこそ</b></div>
-
-  <br><br><br><br>
-  <div style="text-align: center;font-size: 32px;"><b>使い方</b></div>
-  <div id="howToUse">1. スキンを選択してね　　　　　　　　　　　　　　　<br>2. 着替えの呪文をコピーしてね　　　　　　　　　　　<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></div>
-  <!-- 上部にバット画像を表示 -->
-  <img id="outputImage" src="" alt="画像のリンク切れ。ごめんね">
-
-  <br><br>
-  <!-- 有効化されているスキンを表示する領域 -->
-  <div id="selectedSkins">スキン</div>
-
-
-  <div style="text-align: center;">
-    <button id="copyButton" justify-content="center">着替えの呪文をコピー</button>
-  </div>
-
-
-
-  <!-- スキン画像の一覧を表示するコンテナ -->
-  <div id="skinContainer"></div>
-
-  <canvas id="myCanvas" style="display:none;"></canvas>
-
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-
-  <script>
-    let activeSkins = {}; // 有効化されているスキンを保持
-
-    // YAMLファイルを読み込む関数
-    async function loadYaml(filename){
-      try {
-        const response = await fetch(filename);
-        const yamlText = await response.text();
-        return jsyaml.load(yamlText);
-      } catch (error) {
-        console.error('YAMLの読み込みに失敗しました:', error);
-      }
-    }
-
-    // スキン画像を表示する関数
-    async function showSkins() {
-      const skn = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/public_variables/main/loyd/skin.yaml');
-
-      if (!skn) {
-        console.error("YAMLデータの取得に失敗しました");
-        return;
-      }
-
-      const skindata = skn.DATA;
-      const skinContainer = document.getElementById('skinContainer');
-
-      // YAMLから取得したスキン画像を全て表示
-      for (const skinName in skindata) {
-        const skinWrapper = document.createElement('div');
-        skinWrapper.classList.add('skinWrapper');
-
-        const img_skin = new Image();
-        img_skin.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/' + skindata[skinName]["filename"];
-        img_skin.classList.add('skinImage');
-        img_skin.alt = skinName;
-
-        // スキン画像をクリックしたときのイベントリスナー
-        img_skin.onclick = function() {
-          if (activeSkins[skinName]) {
-            // スキンがすでに有効化されている場合は解除
-            delete activeSkins[skinName];
-            img_skin.classList.remove('active'); // ハイライト解除
-          } else {
-            // スキンを有効化
-            activeSkins[skinName] = skindata[skinName];
-            img_skin.classList.add('active'); // ハイライト追加
-          }
-          updateBatImage(); // バット画像の更新
-          updateSelectedSkins(); // 有効化されたスキンリストの更新
-        };
-
-        // スキンの名前を表示する要素を作成
-        const skinLabel = document.createElement('div');
-        skinLabel.classList.add('skinName');
-        skinLabel.textContent = skinName;
-
-        // スキン画像と名前をラッパーに追加
-        skinWrapper.appendChild(img_skin);
-        skinWrapper.appendChild(skinLabel);
-        skinContainer.appendChild(skinWrapper);
-      }
-    }
-
-    // バット画像にスキンを重ねる関数
-    function updateBatImage() {
-      const canvas = document.getElementById("myCanvas");
-      const ctx = canvas.getContext("2d");
-
-      // バット画像の再描画
-      const img_bat = new Image();
-      img_bat.crossOrigin = "anonymous";
-      img_bat.onload = function() {
-        // キャンバスをクリアして、バット画像を再描画
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img_bat, 0, 0);
-
-        // 有効化されているスキンをすべて描画
-        for (const skinName in activeSkins) {
-          const img_skin = new Image();
-          img_skin.crossOrigin = "anonymous";
-          img_skin.onload = function() {
-            const skinData = activeSkins[skinName];
-            ctx.drawImage(img_skin, skinData["loc"][0], skinData["loc"][1]);
-
-            // キャンバスの内容を画像として出力
-            const outputImage = document.getElementById("outputImage");
-            outputImage.src = canvas.toDataURL();
-            outputImage.style.display = "block";
-          };
-          img_skin.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/' + activeSkins[skinName]["filename"];
-        }
-
-        // スキンがない場合、バット画像のみ表示
-        if (Object.keys(activeSkins).length === 0) {
-          const outputImage = document.getElementById("outputImage");
-          outputImage.src = canvas.toDataURL();
-          outputImage.style.display = "block";
-        }
-      };
-      img_bat.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_0.png';
-    }
-
-    // 有効化されているスキン名を更新する関数
-    function updateSelectedSkins() {
-      const selectedSkins = document.getElementById("selectedSkins");
-      const skinNames = Object.keys(activeSkins).join(' ');
-      selectedSkins.textContent = `スキン ${skinNames || 'なし'}`;
-    }
-
-    // クリップボードにスキン名をコピーする関数
-    function copyToClipboard() {
-      const skinNames = Object.keys(activeSkins).join(' ');
-      const textToCopy = `スキン ${skinNames || 'なし'}`;
-
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("クリップボードにコピーしました: " + textToCopy);
-      }).catch(err => {
-        console.error('クリップボードへのコピーに失敗しました: ', err);
-      });
-    }
-
-
-    function showUsernameInputBox() {
-      // 親要素を取得または作成
-      let container = document.getElementById('username-container');
-      if (!container) {
-          container = document.createElement('div');
-          container.id = 'username-container';
-          document.body.appendChild(container);
-      }
-
-      // 入力ボックスが既にある場合は処理しない
-      if (document.getElementById('username-input')) return;
-
-      // 入力ボックスを作成
-      const inputBox = document.createElement('input');
-      inputBox.type = 'text';
-      inputBox.id = 'username-input';
-      inputBox.placeholder = 'ユーザー名を入力してください';
-
-      // 送信ボタンを作成
-      const submitButton = document.createElement('button');
-      submitButton.textContent = '送信';
-      submitButton.onclick = function () {
-          const username = inputBox.value;
-          if (username) {
-              console.log('入力されたユーザー名:', username);
-              alert(`ようこそ、${username}さん！`);
-          } else {
-              alert('ユーザー名を入力してください。');
-          }
-      };
-
-      // コンテナに追加
-      container.appendChild(inputBox);
-      container.appendChild(submitButton);
-    }
-
-    // バット画像を初期状態で表示する関数
-    async function showBatImage() {
-      const canvas = document.getElementById("myCanvas");
-      const ctx = canvas.getContext("2d");
-
-      const img_bat = new Image();
-      img_bat.crossOrigin = "anonymous";
-
-      img_bat.onload = function(){
-        // キャンバスのサイズをバット画像に合わせる
-        canvas.width = img_bat.width;
-        canvas.height = img_bat.height;
-
-        // バット画像をキャンバスに描画
-        ctx.drawImage(img_bat, 0, 0);
-
-        // 初期状態のバット画像を表示
-        const outputImage = document.getElementById("outputImage");
-        outputImage.src = canvas.toDataURL();
-        outputImage.style.display = "block";
-
-        // スキン画像のリストを表示
-        showSkins();
-      };
-
-      img_bat.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_0.png';
-    }
-
-    // コピーイベントの設定
-    document.getElementById("copyButton").addEventListener("click", copyToClipboard);
-
-    // ページ読み込み時に
-    window.onload = showBatImage;
-  </script>
+    <h1>YouTube チャンネル情報の取得</h1>
+    <button onclick="onGAPILoad()">GoogleでログインしてYouTube情報を取得</button>
 </body>
 </html>

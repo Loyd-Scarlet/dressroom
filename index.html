@@ -4,8 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="stylesheet.css" type="text/css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <title>スカーレット家の衣装部屋</title>
+
   <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #343F49;
+      color: #FFFFFF;
+      font-family: "Kaisei Opti", serif;
+      font-weight: 400;
+      font-style: normal;/* フォントファミリーを指定 */
+    }
+
+
     .centered{
       display: flex;
       justify-content: center; /* 要素全体を中央に配置 */
@@ -15,7 +31,7 @@
     }
     #skinContainer {
       text-align: center;
-      margin-top: 20px;
+/*       margin-top: 20px; */
     }
     .skinWrapper {
       display: inline-block;
@@ -35,6 +51,48 @@
       font-size: 24px;
       color: #555;
     }
+
+    .sticky-header {
+        position: sticky;
+        top: 0; /* ページ上部に固定 */
+        background-color: #343F49;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        z-index: 1000; /* 他のコンテンツより前面に表示 */
+        width: 100%; /* 親要素の幅を100%に設定 */
+    }
+
+    #topimage-container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      height: auto;
+      margin: 0 auto;
+    }
+    #forest-image {
+      width: 100%;
+      height: auto;
+    }
+    #skinnedbat-images {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: auto;
+    }
+    #scf-dressroom-image {
+      position: absolute;
+      top: 85%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: auto;
+    }
+
+
+
 
   /* スマホ用スタイル */
   @media (max-width: 768px) {
@@ -57,24 +115,32 @@
     #submitButton{
       font-size: 14px;
     }
-    #outputImage {
-      display: block;
-      max-width: 100%; /* 画面幅を超えないようにする */
-      height: auto;
-      margin: 0 auto;
-    }
+
     #copyButton {
       text-align: center;
       margin-top: 10px;
-      padding: 8px 16px;
-      font-size: 20px;
+      padding: 4px 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .sideButton {
+      text-align: center;
+      margin-top: 6px;
+      margin-right: 20px;
+      margin-left: 20px;
+      padding: 4px 8px;
+      font-size: 14px;
       cursor: pointer;
     }
     .rarity {
       font-size: 24px;
+      margin-left: 15px; /* 左の余白 */
     }
     .rarityBorder {
       border-color: Thistle;
+      margin-left: 10px; /* 左の余白 */
+      margin-right: 10px; /* 右の余白 */
+      width: calc(100% - 20px); /* 画面幅から左右の余白を引いた幅 */
     }
     .skinImage {
       max-width: 80px;
@@ -84,19 +150,17 @@
       border: 2px solid transparent; /* 初期状態は枠なし */
     }
     .skinImage.active {
-      border: 4px solid lightblue; /* 選択時の枠線を明確に */
-      border-radius: 8px;
-      padding: 6px solid white; /* ボーダーとコンテンツの間に余白を追加 */
-      box-shadow: 10px 10px 10px gray; /* ハイライト効果を追加 */
+      background-color: #426789; /* 選択時の背景色を変更 */
+      border-radius: 2px;
+      outline: 10px solid  #426789;
+      box-shadow: 0 0 0 14px #0e5fa8,
+                  12px 12px 12px gray;
     }
     .skinName {
       margin-top: 5px;
-      font-size: 16px;
-      width: 10ch;
+      font-size: 20px;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      line-break: strict;
-      color: #333;
     }
   }
 
@@ -111,11 +175,10 @@
       font-size: 32px;
     }
     .normal-text {
-      margin-top: 10px;
+      margin-top: 0px;
       text-align: center;
       font-size: 28px;
     }
-
 
     #username-input{
       font-size: 22px;
@@ -123,14 +186,7 @@
     #submitButton{
       font-size: 22px;
     }
-    #outputImage {
-      display: block;
-      max-width: 800px;
-      height: auto;
-      width: auto;
-      margin: 0 auto;
 
-    }
     #copyButton {
       text-align: center;
       margin-top: 10px;
@@ -138,11 +194,25 @@
       font-size: 20px;
       cursor: pointer;
     }
+    .sideButton {
+      text-align: center;
+      margin-top: 6px;
+      margin-right: 20px;
+      margin-left: 20px;
+      padding: 4px 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
     .rarity {
       font-size: 32px;
+      margin-left: 25px; /* 左の余白 */
     }
     .rarityBorder {
       border-color: Thistle;
+      margin-left: 20px; /* 左の余白 */
+      margin-right: 20px; /* 右の余白 */
+      width: calc(100% - 40px);
     }
     .skinImage {
       max-width: 100px;
@@ -152,80 +222,101 @@
       border: 2px solid transparent;
     }
     .skinImage.active {
-      border: 4px solid lightblue; /* 選択時の枠線を明確に */
-      border-radius: 12px;
-
-      padding: 6px solid white; /* ボーダーとコンテンツの間に余白を追加 */
-      box-shadow: 10px 10px 10px gray; /* ハイライト効果を追加 */
+      background-color: #426789; /* 選択時の背景色を変更 */
+      border-radius: 2px;
+      outline: 10px solid  #426789;
+      box-shadow: 0 0 0 14px #0e5fa8,
+                  12px 12px 12px gray;
     }
     .skinName {
       margin-top: 5px;
       font-size: 20px;
       word-wrap: break-word;
       overflow-wrap: break-word;
-      color: #333;
     }
-
   }
 
   </style>
 </head>
 <body>
-  <div><h1>ロイド・スカーレットの衣装部屋へようこそ</h1></div>
-
-  <br>
-  <div><h2>あなたの名前を入れてね</b></h2></div>
-
-
-  <div id="username-container">
-    <input type="text" id="username-input" placeholder="Youtubeのチャンネル名">
-    <button id="submitButton">送信</button>
-  </div>
-
-  <br><br>
-  <div><h2>使い方</h2></div>
-  <div class="centered">
-      <p class="normal-text">1. 名前を入れて、スキンを選択してね<br>2. 着替えの呪文をコピーしてね<br>3. コピーしたテキストを配信のチャットに貼り付けてね<br></p>
-  </div>
   <!-- 上部にバット画像を表示 -->
-  <img id="outputImage" alt="画像のリンク切れ。ごめんね。">
 
-  <br><br>
-  <!-- 有効化されているスキンを表示する領域 -->
-  <div class="normal-text" id="selectedSkins">着替えの呪文: スキン</div>
+  <div class="sticky-header">
+    <div id="topimage-container">
+<!--       <img id="forest-image" src="../dressroom_design/forest_background.png"> -->
+      <img id="forest-image" src="https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/forest_background.png">
+      <img id="skinnedbat-images">
 
-  <div style="text-align: center;">
-    <button id="copyButton" justify-content="center">呪文をコピー</button>
+      <div id="buttonsContainer" style="text-align: center;">
+        <button class="sideButton" onclick="displayUsernameInput()">名前を入れ直す</button></a>
+        <button id="copyButton" justify-content="center">着替え呪文をコピー</button>
+        <a href="https://www.youtube.com/@LoydScarlet/streams"><button class="sideButton">配信に行く</button></a>
+        <div class="normal-text" id="selectedSkins">着用中のスキン: </div>
+
+      </div>
+
+
+    </div>
   </div>
 
-  <br><br><br><br>
-  <div><h2>所持スキン</h2></div>
+
+<!--   <div><h1>ロイド・スカーレットの衣装部屋へようこそ</h1></div> -->
+  <div id=usernameAndUsage>
+    <div><h2>あなたの名前を入れてね</b></h2></div>
+    <div id="username-container">
+      <input type="text" id="username-input" placeholder="Youtubeのチャンネル名">
+      <button id="submitButton">送信</button>
+    </div>
+
+    <br><br>
+    <h2>使い方</h2>
+    <div class="centered">
+      <p class="normal-text">1. 名前を入れるとスキンが表示されるよ<br>2. 身につけたいスキンを選んでね<br>3. 着替えの呪文を配信でチャットしてね<br></p>
+    </div>
+  </div>
+
+
+
+
+
+
+<!--  <br><br><br><br>
+  <div><h2>所持スキン</h2></div>-->
 
   <!-- スキン画像の一覧を表示するコンテナ -->
-  <hr class="rarityBorder">
-  <div class="rarity"><b>L</b></div>
-  <div id="skinContainerL"></div>
-  <br>
 
-  <hr class="rarityBorder">
-  <div class="rarity"><b>SSR</b></div>
-  <div id="skinContainerSSR"></div>
-  <br>
+  <dev id="skin-selection">
 
-  <hr class="rarityBorder">
-  <div class="rarity"><b>SR</b></div>
-  <div id="skinContainerSR"></div>
-  <br>
+<!--     <div class="sticky-header"> -->
 
-  <hr class="rarityBorder">
-  <div class="rarity"><b>R</b></div>
-  <div id="skinContainerR"></div>
-  <br>
+<!--     </div> -->
 
-  <hr class="rarityBorder">
-  <div class="rarity"><b>C</b></div>
-  <div id="skinContainerC"></div>
-  <br>
+    <br><br><br>
+    <hr class="rarityBorder">
+    <div class="rarity"><b>L</b></div>
+    <div id="skinContainerL"></div>
+    <br>
+
+    <hr class="rarityBorder">
+    <div class="rarity"><b>SSR</b></div>
+    <div id="skinContainerSSR"></div>
+    <br>
+
+    <hr class="rarityBorder">
+    <div class="rarity"><b>SR</b></div>
+    <div id="skinContainerSR"></div>
+    <br>
+
+    <hr class="rarityBorder">
+    <div class="rarity"><b>R</b></div>
+    <div id="skinContainerR"></div>
+    <br>
+
+    <hr class="rarityBorder">
+    <div class="rarity"><b>C</b></div>
+    <div id="skinContainerC"></div>
+    <br>
+  </dev>
 
   <canvas id="myCanvas" style="display:none;"></canvas>
 
@@ -270,15 +361,30 @@
     // リスナーIDを表示する関数
     async function getUserId() {
       const usernameInput = document.getElementById('username-input').value;
+      if (!usernameInput) return
 
 
       if (usernameInput in listenerIds) {
         userIdInput = listenerIds[usernameInput][0];
+        // document.getElementById('usernameAndUsage').style.display = 'none';
+        await displaySkinSelection();
         await showAllSkins();
       } else {
         alert("この名前はまだ登録されてないよ。ロイドの配信でコメントしよう!\n\nチャンネルのリンク↓\nhttps://www.youtube.com/channel/UCf4Fq2Ho5OxE2UtBV4I53aA")
       }
     }
+
+    async function displayUsernameInput(){
+      document.getElementById('usernameAndUsage').style.display = 'block';
+      document.getElementById('buttonsContainer').style.display = 'none';
+      document.getElementById('skin-selection').style.display = 'none';
+    }
+    async function displaySkinSelection(){
+      document.getElementById('buttonsContainer').style.display = 'block';
+      document.getElementById('skin-selection').style.display = 'block';
+      document.getElementById('usernameAndUsage').style.display = 'none';
+    }
+
 
     async function showAllSkins(){
       // skinContainer.innerHTML = ''; // スキン画像をクリア
@@ -351,8 +457,8 @@
         canvas.width = batImage.width;
         canvas.height = batImage.height;
         ctx.drawImage(batImage, 0, 0);
-        const outputImage = document.getElementById("outputImage");
-        outputImage.src = canvas.toDataURL();
+        const skinnedbat_images = document.getElementById("skinnedbat-images");
+        skinnedbat_images.src = canvas.toDataURL();
       };
       batImage.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_centered_0.png';
     }
@@ -379,18 +485,18 @@
             ctx.drawImage(skinImage, skinData["loc"][0], skinData["loc"][1]);
 
             // キャンバスの内容を画像として出力
-            const outputImage = document.getElementById("outputImage");
-            outputImage.src = canvas.toDataURL();
-            outputImage.style.display = "block";
+            const skinnedbat_images = document.getElementById("skinnedbat-images");
+            skinnedbat_images.src = canvas.toDataURL();
+            skinnedbat_images.style.display = "block";
           };
           skinImage.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/' + activeSkins[skinName]["filename"];
         }
 
         // スキンがない場合、バット画像のみ表示
         if (Object.keys(activeSkins).length === 0) {
-          const outputImage = document.getElementById("outputImage");
-          outputImage.src = canvas.toDataURL();
-          outputImage.style.display = "block";
+          const skinnedbat_images = document.getElementById("skinnedbat-images");
+          skinnedbat_images.src = canvas.toDataURL();
+          skinnedbat_images.style.display = "block";
         }
       };
       batImage.src = 'https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/flybat_edged_0.png';
@@ -400,7 +506,7 @@
     function updateSelectedSkins() {
       const selectedSkins = document.getElementById("selectedSkins");
       const skinNames = Object.keys(activeSkins).join(' ');
-      selectedSkins.textContent = `着替えの呪文: スキン ${skinNames || 'なし'}`;
+      selectedSkins.textContent = `着用中のスキン:  ${skinNames || 'なし'}`;
     }
 
     // クリップボードにスキン名をコピーする関数
@@ -409,19 +515,43 @@
       const textToCopy = `スキン ${skinNames || 'なし'}`;
 
       navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("クリップボードにコピーしました: " + textToCopy);
+        alert("クリップボードにコピー: " + textToCopy);
       }).catch(err => {
         console.error('クリップボードへのコピーに失敗しました: ', err);
       });
     }
+            // クエリパラメータを解析する関数
+    function getQueryParams() {
+        const params = {};
+        const queryString = window.location.search;
+        if (queryString) {
+            const pairs = queryString.substring(1).split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+            });
+        }
+        return params;
+    }
+
+
 
     // ページ読み込み時に
     document.getElementById("submitButton").addEventListener("click", getUserId);
     document.getElementById("copyButton").addEventListener("click", copyToClipboard);
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = getQueryParams();
+        if (params.username) {
+            document.getElementById('username-input').value = params.username;
+        }
+    });
+
     window.onload = async function() {
       await loadYamls();
       await showBatImage();
-      // await showSkins();
+      await displayUsernameInput();
+      await getUserId();
+
     };
   </script>
 </body>
