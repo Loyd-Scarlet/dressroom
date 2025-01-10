@@ -21,7 +21,6 @@
       font-style: normal;/* フォントファミリーを指定 */
     }
 
-
     .centered{
       display: flex;
       justify-content: center; /* 要素全体を中央に配置 */
@@ -76,20 +75,12 @@
     }
     #skinnedbat-images {
       position: absolute;
-      top: 40%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, 40%);
       width: 80%;
       height: auto;
     }
-    #scf-dressroom-image {
-      position: absolute;
-      top: 85%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80%;
-      height: auto;
-    }
+
 
 
 
@@ -243,19 +234,15 @@
 
   <div class="sticky-header">
     <div id="topimage-container">
-<!--       <img id="forest-image" src="../dressroom_design/forest_background.png"> -->
       <img id="forest-image" src="https://raw.githubusercontent.com/Loyd-Scarlet/dressroom/main/material/forest_background.png">
       <img id="skinnedbat-images">
 
       <div id="buttonsContainer" style="text-align: center;">
-        <button class="sideButton" onclick="displayUsernameInput()">名前を入力</button></a>
-        <button id="copyButton" justify-content="center">呪文をコピー</button>
+        <button class="sideButton" onclick="displayUsernameInput()">　戻る　</button></a>
+        <button id="copyButton" justify-content="center">着替えの呪文をコピー</button>
         <a href="https://www.youtube.com/@LoydScarlet/streams"><button class="sideButton">配信に行く</button></a>
-        <div class="normal-text" id="selectedSkins">着用中のスキン: </div>
-
+<!--         <div class="normal-text" id="selectedSkins">着用中のスキン: </div> -->
       </div>
-
-
     </div>
   </div>
 
@@ -515,7 +502,7 @@
       const textToCopy = `スキン ${skinNames || 'なし'}`;
 
       navigator.clipboard.writeText(textToCopy).then(() => {
-        alert("クリップボードにコピー: " + textToCopy);
+        alert("着替えの呪文をクリップボードにコピーしたよ。\n配信のチャットに貼り付けよう！\n\n\n着替えの呪文: " + textToCopy);
       }).catch(err => {
         console.error('クリップボードへのコピーに失敗しました: ', err);
       });
