@@ -334,11 +334,11 @@
     }
 
     async function loadYamls() {
-      const listenerYaml = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/public_variables/main/loyd/listener.yaml');
+      const listenerYaml = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/public_variables/main/Loyd/listener.yaml');
       listenerData = listenerYaml["data"];
       listenerIds = listenerYaml["ids"];
 
-      const skinYaml = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/public_variables/main/loyd/skin.yaml');
+      const skinYaml = await loadYaml('https://raw.githubusercontent.com/Loyd-Scarlet/public_variables/main/Loyd/skin.yaml');
       skinData = skinYaml["data"];
       if (!skinData) {
         console.error("スキンデータの取得に失敗しました");
